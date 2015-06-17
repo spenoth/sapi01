@@ -32,6 +32,14 @@ public class Sprint {
     @Column(name = "modification_time", nullable = false)
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime modificationTime;
+    
+    @Column(name = "from_dt", nullable = true)
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    private DateTime fromDt;
+    
+    @Column(name = "to_dt", nullable = true)
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    private DateTime toDt;
 
     @Column(name = "title", nullable = false, length = MAX_LENGTH_TITLE)
     private String title;
@@ -65,6 +73,22 @@ public class Sprint {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public DateTime getFromDt() {
+		return fromDt;
+	}
+
+	public void setFromDt(DateTime fromDt) {
+		this.fromDt = fromDt;
+	}
+
+	public DateTime getToDt() {
+		return toDt;
+	}
+
+	public void setToDt(DateTime toDt) {
+		this.toDt = toDt;
 	}
 
 	public void setCreationTime(DateTime creationTime) {
@@ -119,9 +143,11 @@ public class Sprint {
         modificationTime = DateTime.now();
     }
 
-    public void update(String description, String title) {
+    public void update(String description, String title, DateTime from, DateTime to) {
         this.description = description;
         this.title = title;
+        this.fromDt = from;
+        this.toDt = to;
     }
 
     public static class Builder {
@@ -135,6 +161,18 @@ public class Sprint {
         public Builder setTitle(String title)
         {
         	this.built.title=title;
+        	return this;
+        }
+        
+        public Builder setFromDt(DateTime value)
+        {
+        	this.built.fromDt = value;
+        	return this;
+        }
+        
+        public Builder setToDt(DateTime value)
+        {
+        	this.built.toDt = value;
         	return this;
         }
         

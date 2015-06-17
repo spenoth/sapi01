@@ -1,10 +1,12 @@
 package ro.sapientia2015.story.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
 
 import ro.sapientia2015.story.model.Sprint;
 import ro.sapientia2015.story.model.Story;
@@ -25,6 +27,9 @@ public class SprintDTO {
     @Length(max = 20)
     private String title;
 
+    private DateTime fromDt;
+    private DateTime toDt;
+    
     private List<Story> stories;
     
     public SprintDTO() {
@@ -56,7 +61,24 @@ public class SprintDTO {
     }
 
     
-    @Override
+    
+    public DateTime getFromDt() {
+		return fromDt;
+	}
+
+	public void setFromDt(DateTime fromDt) {
+		this.fromDt = fromDt;
+	}
+
+	public DateTime getToDt() {
+		return toDt;
+	}
+
+	public void setToDt(DateTime toDt) {
+		this.toDt = toDt;
+	}
+
+	@Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
