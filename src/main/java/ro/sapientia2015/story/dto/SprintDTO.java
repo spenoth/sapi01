@@ -27,8 +27,8 @@ public class SprintDTO {
     @Length(max = 20)
     private String title;
 
-    private DateTime fromDt;
-    private DateTime toDt;
+    private String fromDt;
+    private String toDt;
     
     private List<Story> stories;
     
@@ -62,19 +62,19 @@ public class SprintDTO {
 
     
     
-    public DateTime getFromDt() {
+    public String getFromDt() {
 		return fromDt;
 	}
 
-	public void setFromDt(DateTime fromDt) {
+	public void setFromDt(String fromDt) {
 		this.fromDt = fromDt;
 	}
 
-	public DateTime getToDt() {
+	public String getToDt() {
 		return toDt;
 	}
 
-	public void setToDt(DateTime toDt) {
+	public void setToDt(String toDt) {
 		this.toDt = toDt;
 	}
 

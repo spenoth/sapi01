@@ -1,10 +1,14 @@
 package ro.sapientia2015.story.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ro.sapientia2015.story.dto.SprintDTO;
 import ro.sapientia2015.story.dto.StoryDTO;
 import ro.sapientia2015.story.model.Sprint;
+import ro.sapientia2015.story.model.Story;
 import ro.sapientia2015.story.service.SprintService;
 
 @Controller
@@ -27,6 +32,8 @@ public class SprintController {
 	public static final String VIEW_LIST = "sprint/list";
 	public static final String VIEW_ADD = "sprint/add";
 
+    protected static final String PARAMETER_ID = "id";
+	
 	private static final String MODEL_ATTRIBUTE = "sprint";
 
 	@RequestMapping(value = "/sprint/list", method = RequestMethod.GET)
@@ -53,12 +60,21 @@ public class SprintController {
 	}
 
 	@RequestMapping(value = "/sprint/add", method = RequestMethod.POST)
-	public String add(@Valid @ModelAttribute(MODEL_ATTRIBUTE) SprintDTO dto, BindingResult result, RedirectAttributes attributes) {
+	public String add(@Valid @ModelAttribute(MODEL_ATTRIBUTE) SprintDTO dto, BindingResult result, RedirectAttributes attributes) throws ParseException {
 		if(result.hasErrors()){
 			return VIEW_ADD;
 		}
+	
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyy HH:mm:ss a");
+        Date from = format.parse(dto.getFromDt());
+        Date to = format.parse(dto.getToDt());
 		
-		service.add(dto);
+        if(from.after(to) || from.equals(to)) {
+       	 return VIEW_ADD;
+       }
+        
+		Sprint added = service.add(dto);
+        attributes.addAttribute(PARAMETER_ID, added.getId());
 		
 		return createRedirectViewPath("/sprint/list");
 	}

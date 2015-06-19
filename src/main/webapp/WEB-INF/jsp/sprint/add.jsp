@@ -49,7 +49,7 @@
 			
 			<div id="control-group-to-dt" class="control-group">
 				<div class="well">
-				  <div id="datetimepicker2" class="input-append">
+				  <div id="datetimepicker3" class="input-append">
 				    <form:input data-format="MM/dd/yyyy HH:mm:ss PP" type="text" path="toDt" />
 				    <span class="add-on">
 				      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
@@ -59,7 +59,7 @@
 				</div>
 				<script type="text/javascript">
 				  $(function() {
-				    $('#datetimepicker2').datetimepicker({
+				    $('#datetimepicker3').datetimepicker({
 				      language: 'en',
 				      pick12HourFormat: false
 				    });

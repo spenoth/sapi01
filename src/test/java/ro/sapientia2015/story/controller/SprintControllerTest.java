@@ -30,6 +30,7 @@ import ro.sapientia2015.story.service.StoryService;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -131,7 +132,13 @@ public class SprintControllerTest {
         RedirectAttributesModelMap attributes = new RedirectAttributesModelMap();
 
 
-        String view = controller.add(formObject, result, attributes);
+        String view=null;
+		try {
+			view = controller.add(formObject, result, attributes);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         verify(serviceMock, times(1)).add(formObject);
         verifyNoMoreInteractions(serviceMock);
@@ -154,7 +161,13 @@ public class SprintControllerTest {
 
         RedirectAttributesModelMap attributes = new RedirectAttributesModelMap();
 
-        String view = controller.add(formObject, result, attributes);
+        String view=null;
+		try {
+			view = controller.add(formObject, result, attributes);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         assertEquals(SprintController.VIEW_ADD, view);
     }
@@ -172,7 +185,13 @@ public class SprintControllerTest {
 
         RedirectAttributesModelMap attributes = new RedirectAttributesModelMap();
 
-        String view = controller.add(formObject, result, attributes);
+        String view=null;
+		try {
+			view = controller.add(formObject, result, attributes);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         assertEquals(SprintController.VIEW_ADD, view);
     }
