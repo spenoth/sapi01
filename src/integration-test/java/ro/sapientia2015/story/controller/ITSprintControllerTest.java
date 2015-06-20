@@ -137,58 +137,57 @@ public class ITSprintControllerTest {
 		        .andExpect(model().attribute(SprintController.MODEL_ATTRIBUTE, hasProperty("toDt",   is(d2))));
     }
 //
-//    @Test
-//    @ExpectedDatabase(value="storyData-add-expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
-//    public void add() throws Exception {
-//        String expectedRedirectViewPath = StoryTestUtil.createRedirectViewPath(StoryController.REQUEST_MAPPING_VIEW);
+    @Test
+    @ExpectedDatabase(value="sprintData-add-expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    public void add() throws Exception {
+        String expectedRedirectViewPath = SprintTestUtil.createRedirectViewPath("/sprint/list");
+
+        String d1 = "05/29/2015 09:05:34 PM";
+        String d2 = "05/30/2015 09:05:34 PM";
+                
+        mockMvc.perform(post("/sprint/add")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param(FORM_FIELD_DESCRIPTION, "description")
+                .param(FORM_FIELD_TITLE, "title")
+                .param(FORM_FIELD_FROM, d1)
+                .param(FORM_FIELD_TO, d2)
+                .sessionAttr(SprintController.MODEL_ATTRIBUTE, new SprintDTO())
+        )
+                .andExpect(status().isOk())
+                .andExpect(view().name(expectedRedirectViewPath))
+                .andExpect(model().attribute(SprintController.PARAMETER_ID, is("2")));
+    }
 //
-//        mockMvc.perform(post("/story/add")
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param(FORM_FIELD_DESCRIPTION, "description")
-//                .param(FORM_FIELD_TITLE, "title")
-//                .sessionAttr(StoryController.MODEL_ATTRIBUTE, new StoryDTO())
-//        )
-//                .andExpect(status().isOk())
-//                .andExpect(view().name(expectedRedirectViewPath))
-//                .andExpect(model().attribute(StoryController.PARAMETER_ID, is("3")))
-//                .andExpect(flash().attribute(StoryController.FLASH_MESSAGE_KEY_FEEDBACK, is("Story entry: title was added.")));
-//    }
+    @Test
+    @ExpectedDatabase("sprintData.xml")
+    public void findAll() throws Exception {
+        mockMvc.perform(get("/sprint/list"))
+                .andExpect(status().isOk())
+                .andExpect(view().name(SprintController.VIEW_LIST))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/sprint/list.jsp"))
+                .andExpect(model().attribute(SprintController.MODEL_ATTRIBUTE_LIST, hasSize(1)))
+                .andExpect(model().attribute(SprintController.MODEL_ATTRIBUTE_LIST, hasItem(
+                        allOf(
+                                hasProperty("id", is(1L)),
+                                hasProperty("description", is("Lorem ipsum")),
+                                hasProperty("title", is("Bar")),
+                                hasProperty("fromDt", is("06/26/2015 09:05:34 PM")),
+                                hasProperty("toDt", is("06/29/2015 09:05:34 PM"))
+                        )
+                )));
+    }
 //
-//    @Test
-//    @ExpectedDatabase("storyData.xml")
-//    public void findAll() throws Exception {
-//        mockMvc.perform(get("/"))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name(StoryController.VIEW_LIST))
-//                .andExpect(forwardedUrl("/WEB-INF/jsp/story/list.jsp"))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE_LIST, hasSize(2)))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE_LIST, hasItem(
-//                        allOf(
-//                                hasProperty("id", is(1L)),
-//                                hasProperty("description", is("Lorem ipsum")),
-//                                hasProperty("title", is("Foo"))
-//                        )
-//                )))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE_LIST, hasItem(
-//                        allOf(
-//                                hasProperty("id", is(2L)),
-//                                hasProperty("description", is("Lorem ipsum")),
-//                                hasProperty("title", is("Bar"))
-//                        )
-//                )));
-//    }
-//
-//    @Test
-//    @ExpectedDatabase("storyData.xml")
-//    public void findById() throws Exception {
-//        mockMvc.perform(get("/story/{id}", 1L))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name(StoryController.VIEW_VIEW))
-//                .andExpect(forwardedUrl("/WEB-INF/jsp/story/view.jsp"))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("id", is(1L))))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("description", is("Lorem ipsum"))))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("title", is("Foo"))));
-//    }
+    @Test
+    @ExpectedDatabase("sprintData.xml")
+    public void findById() throws Exception {
+        mockMvc.perform(get("sprint/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(view().name(SprintController.VIEW_VIEW))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/sprint/view.jsp"))
+                .andExpect(model().attribute(SprintController.MODEL_ATTRIBUTE, hasProperty("id", is(1L))))
+                .andExpect(model().attribute(SprintController.MODEL_ATTRIBUTE, hasProperty("description", is("Lorem ipsum"))))
+                .andExpect(model().attribute(SprintController.MODEL_ATTRIBUTE, hasProperty("title", is("Foo"))));
+    }
 //
 //    @Test
 //    @ExpectedDatabase("storyData.xml")
