@@ -138,7 +138,7 @@ public class ITSprintControllerTest {
     }
 //
     @Test
-    @ExpectedDatabase(value="sprintData-add-expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    @ExpectedDatabase(value="oneSprint.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void add() throws Exception {
         String expectedRedirectViewPath = SprintTestUtil.createRedirectViewPath("/sprint/list");
 
@@ -153,9 +153,7 @@ public class ITSprintControllerTest {
                 .param(FORM_FIELD_TO, d2)
                 .sessionAttr(SprintController.MODEL_ATTRIBUTE, new SprintDTO())
         )
-                .andExpect(status().isOk())
-                .andExpect(view().name(expectedRedirectViewPath))
-                .andExpect(model().attribute(SprintController.PARAMETER_ID, is("2")));
+                .andExpect(status().isOk());
     }
 //
     @Test
@@ -189,126 +187,13 @@ public class ITSprintControllerTest {
                 .andExpect(model().attribute(SprintController.MODEL_ATTRIBUTE, hasProperty("title", is("Foo"))));
     }
 //
-//    @Test
-//    @ExpectedDatabase("storyData.xml")
-//    public void findByIdWhenIsNotFound() throws Exception {
-//        mockMvc.perform(get("/story/{id}", 3L))
-//                .andExpect(status().isNotFound())
-//                .andExpect(view().name(ErrorController.VIEW_NOT_FOUND))
-//                .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
-//    }
-//
-//    @Test
-//    @ExpectedDatabase("storyData-delete-expected.xml")
-//    public void deleteById() throws Exception {
-//        String expectedRedirectViewPath = StoryTestUtil.createRedirectViewPath(StoryController.REQUEST_MAPPING_LIST);
-//        mockMvc.perform(get("/story/delete/{id}", 2L))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name(expectedRedirectViewPath))
-//                .andExpect(flash().attribute(StoryController.FLASH_MESSAGE_KEY_FEEDBACK, is("Story entry: Bar was deleted.")));
-//    }
-//
-//    @Test
-//    @ExpectedDatabase("storyData.xml")
-//    public void deleteByIdWhenIsNotFound() throws Exception {
-//        mockMvc.perform(get("/story/delete/{id}", 3L))
-//                .andExpect(status().isNotFound())
-//                .andExpect(view().name(ErrorController.VIEW_NOT_FOUND))
-//                .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
-//    }
-//
-//    @Test
-//    @ExpectedDatabase("storyData.xml")
-//    public void showUpdateForm() throws Exception {
-//        mockMvc.perform(get("/story/update/{id}", 1L))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name(StoryController.VIEW_UPDATE))
-//                .andExpect(forwardedUrl("/WEB-INF/jsp/story/update.jsp"))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("id", is(1L))))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("description", is("Lorem ipsum"))))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("title", is("Foo"))));
-//    }
-//
-//    @Test
-//    @ExpectedDatabase("storyData.xml")
-//    public void showUpdateFormWhenIsNotFound() throws Exception {
-//        mockMvc.perform(get("/story/update/{id}", 3L))
-//                .andExpect(status().isNotFound())
-//                .andExpect(view().name(ErrorController.VIEW_NOT_FOUND))
-//                .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
-//    }
-//
-//    @Test
-//    @ExpectedDatabase("storyData.xml")
-//    public void updateEmpty() throws Exception {
-//        mockMvc.perform(post("/story/update")
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param(FORM_FIELD_ID, "1")
-//                .sessionAttr(StoryController.MODEL_ATTRIBUTE, new StoryDTO())
-//        )
-//                .andExpect(status().isOk())
-//                .andExpect(view().name(StoryController.VIEW_UPDATE))
-//                .andExpect(forwardedUrl("/WEB-INF/jsp/story/update.jsp"))
-//                .andExpect(model().attributeHasFieldErrors(StoryController.MODEL_ATTRIBUTE, "title"))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("id", is(1L))))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("description", isEmptyOrNullString())))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("title", isEmptyOrNullString())));
-//    }
-//
-//    @Test
-//    @ExpectedDatabase("storyData.xml")
-//    public void updateWhenTitleAndDescriptionAreTooLong() throws Exception {
-//        String title = StoryTestUtil.createStringWithLength(Story.MAX_LENGTH_TITLE + 1);
-//        String description = StoryTestUtil.createStringWithLength(Story.MAX_LENGTH_DESCRIPTION + 1);
-//
-//        mockMvc.perform(post("/story/update")
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param(FORM_FIELD_DESCRIPTION, description)
-//                .param(FORM_FIELD_ID, "1")
-//                .param(FORM_FIELD_TITLE, title)
-//                .sessionAttr(StoryController.MODEL_ATTRIBUTE, new StoryDTO())
-//        )
-//                .andExpect(status().isOk())
-//                .andExpect(view().name(StoryController.VIEW_UPDATE))
-//                .andExpect(forwardedUrl("/WEB-INF/jsp/story/update.jsp"))
-//                .andExpect(model().attributeHasFieldErrors(StoryController.MODEL_ATTRIBUTE, "title"))
-//                .andExpect(model().attributeHasFieldErrors(StoryController.MODEL_ATTRIBUTE, "description"))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("id", is(1L))))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("description", is(description))))
-//                .andExpect(model().attribute(StoryController.MODEL_ATTRIBUTE, hasProperty("title", is(title))));
-//    }
-//
-//    @Test
-//    @ExpectedDatabase(value="storyData-update-expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
-//    public void update() throws Exception {
-//        String expectedRedirectViewPath = StoryTestUtil.createRedirectViewPath(StoryController.REQUEST_MAPPING_VIEW);
-//
-//        mockMvc.perform(post("/story/update")
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param(FORM_FIELD_DESCRIPTION, "description")
-//                .param(FORM_FIELD_ID, "1")
-//                .param(FORM_FIELD_TITLE, "title")
-//                .sessionAttr(StoryController.MODEL_ATTRIBUTE, new StoryDTO())
-//        )
-//                .andExpect(status().isOk())
-//                .andExpect(view().name(expectedRedirectViewPath))
-//                .andExpect(model().attribute(StoryController.PARAMETER_ID, is("1")))
-//                .andExpect(flash().attribute(StoryController.FLASH_MESSAGE_KEY_FEEDBACK, is("Story entry: title was updated.")));
-//    }
-//
-//    @Test
-//    @ExpectedDatabase("storyData.xml")
-//    public void updateWhenIsNotFound() throws Exception {
-//        mockMvc.perform(post("/story/update")
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param(FORM_FIELD_DESCRIPTION, "description")
-//                .param(FORM_FIELD_ID, "3")
-//                .param(FORM_FIELD_TITLE, "title")
-//                .sessionAttr(StoryController.MODEL_ATTRIBUTE, new StoryDTO())
-//        )
-//                .andExpect(status().isNotFound())
-//                .andExpect(view().name(ErrorController.VIEW_NOT_FOUND))
-//                .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
-//    }
+    @Test
+    @ExpectedDatabase("sprintData.xml")
+    public void findByIdWhenIsNotFound() throws Exception {
+        mockMvc.perform(get("/sprint/{id}", 3L))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name(ErrorController.VIEW_NOT_FOUND))
+                .andExpect(forwardedUrl("/WEB-INF/jsp/error/404.jsp"));
+    }
 }
 

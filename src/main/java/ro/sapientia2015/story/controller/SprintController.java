@@ -41,7 +41,7 @@ public class SprintController {
     
     protected static final String FLASH_MESSAGE_KEY_FEEDBACK = "feedbackMessage";
 	
-    protected static final String REQUEST_MAPPING_VIEW = "/sprint/{id}";
+    protected static final String REQUEST_MAPPING_VIEW = "sprint/{id}";
     
 	public static final String VIEW_LIST = "sprint/list";
 	public static final String VIEW_ADD = "sprint/add";
@@ -137,4 +137,11 @@ public class SprintController {
         return messageSource.getMessage(messageCode, messageParameters, current);
     }
 	
+    @RequestMapping(value = REQUEST_MAPPING_VIEW, method = RequestMethod.GET)
+    public String findById(@PathVariable("id") Long id, Model model) throws NotFoundException {
+        Sprint found = service.findById(id);
+        model.addAttribute(MODEL_ATTRIBUTE, found);
+        return VIEW_VIEW;
+    }
+    
 }

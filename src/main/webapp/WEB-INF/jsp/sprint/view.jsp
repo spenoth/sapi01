@@ -5,7 +5,6 @@
 <html>
 <head>
     <title></title>
-    <script type="text/javascript" src="/static/js/story.view.js"></script>
 </head>
 <body>
     <div id="sprint-id" class="hidden">${story.id}</div>
@@ -15,10 +14,7 @@
         <div>
             <p><c:out value="${sprint.description}"/></p>
         </div>
-        <div class="action-buttons">
-            <a href="/sprint/update/${story.id}" class="btn btn-primary"><spring:message code="label.update.sprint.link"/></a>
-            <a id="delete-sprint-link" class="btn btn-primary"><spring:message code="label.delete.sprint.link"/></a>
-        </div>
+
     </div>
     <script id="template-delete-sprint-confirmation-dialog" type="text/x-handlebars-template">
         <div id="delete-sprint-confirmation-dialog" class="modal">
